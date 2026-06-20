@@ -1,53 +1,53 @@
--- Таблица пользователей (общая для авторизации)
+-- Users table (shared for authentication)
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    login VARCHAR(50) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    role ENUM('patient', 'doctor', 'admin', 'director') NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    login TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    role TEXT CHECK(role IN ('patient', 'doctor', 'admin', 'director')) NOT NULL
 );
 
--- Данные пациентов (Процесс 1)
+-- Patient data
 CREATE TABLE patients (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    full_name VARCHAR(100) NOT NULL,
-    passport VARCHAR(20) UNIQUE NOT NULL,
-    insurance_policy VARCHAR(20) UNIQUE NOT NULL,
-    medical_card_num VARCHAR(20) UNIQUE NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    full_name TEXT NOT NULL,
+    passport TEXT UNIQUE NOT NULL,
+    insurance_policy TEXT UNIQUE NOT NULL,
+    medical_card_num TEXT UNIQUE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Данные врачей
+-- Doctor data
 CREATE TABLE doctors (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    full_name VARCHAR(100) NOT NULL,
-    specialization VARCHAR(100) NOT NULL,
-    room_num VARCHAR(10) NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    full_name TEXT NOT NULL,
+    specialization TEXT NOT NULL,
+    room_num TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Сетка расписания (Процесс 2)
+-- Schedule grid
 CREATE TABLE schedule (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    doctor_id INT NOT NULL,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    doctor_id INTEGER NOT NULL,
     appointment_date DATE NOT NULL,
     appointment_time TIME NOT NULL,
     is_available BOOLEAN DEFAULT TRUE,
     FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
 );
 
--- Журнал приемов (Процесс 2 и 3)
+-- Appointment log
 CREATE TABLE appointments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    patient_id INT NOT NULL,
-    doctor_id INT NOT NULL,
-    schedule_id INT NOT NULL,
-    status ENUM('booked', 'completed', 'cancelled') DEFAULT 'booked',
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    patient_id INTEGER NOT NULL,
+    doctor_id INTEGER NOT NULL,
+    schedule_id INTEGER NOT NULL,
+    status TEXT CHECK(status IN ('booked', 'completed', 'cancelled')) DEFAULT 'booked',
     symptoms TEXT,
     diagnosis TEXT,
     treatment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE,
     FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE,
     FOREIGN KEY (schedule_id) REFERENCES schedule(id) ON DELETE CASCADE
