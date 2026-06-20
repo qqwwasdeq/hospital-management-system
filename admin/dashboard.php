@@ -1,9 +1,9 @@
 <?php
+require_once '../config.php';
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 requireRole('admin');
 
-// Handle cancellation
 if (isset($_POST['cancel_id'])) {
     $cancel_id = $_POST['cancel_id'];
     $pdo->beginTransaction();
@@ -20,7 +20,7 @@ if (isset($_POST['cancel_id'])) {
         $stmt->execute([$app['schedule_id']]);
 
         $pdo->commit();
-        $msg = "Appointment cancelled successfully.";
+        $msg = "Прием успешно отменен.";
     } else {
         $pdo->rollBack();
     }
@@ -40,23 +40,23 @@ $appointments = $stmt->fetchAll();
 include '../includes/header.php';
 ?>
 
-<h2>Administrator Panel</h2>
+<h2>Панель Администратора</h2>
 <div class="mb-3">
-    <a href="add_slot.php" class="btn btn-success">Add New Time Slot</a>
+    <a href="/admin/add_slot.php" class="btn btn-success">Добавить слот в расписание</a>
 </div>
 
-<h4>Active Appointments</h4>
+<h4>Активные Записи на Прием</h4>
 <?php if (isset($msg)): ?>
     <div class="alert alert-success"><?php echo $msg; ?></div>
 <?php endif; ?>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
-            <th>Date & Time</th>
-            <th>Patient</th>
-            <th>Doctor</th>
-            <th>Action</th>
+            <th>Дата и Время</th>
+            <th>Пациент</th>
+            <th>Врач</th>
+            <th>Действие</th>
         </tr>
     </thead>
     <tbody>
@@ -68,7 +68,7 @@ include '../includes/header.php';
             <td>
                 <form method="POST" style="display:inline;">
                     <input type="hidden" name="cancel_id" value="<?php echo $app['id']; ?>">
-                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Cancel this appointment?')">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Отменить эту запись?')">Отменить</button>
                 </form>
             </td>
         </tr>

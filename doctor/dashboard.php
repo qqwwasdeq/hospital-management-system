@@ -1,4 +1,5 @@
 <?php
+require_once '../config.php';
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 requireRole('doctor');
@@ -24,19 +25,23 @@ $appointments = $stmt->fetchAll();
 include '../includes/header.php';
 ?>
 
-<h2>Doctor Dashboard: <?php echo htmlspecialchars($doctor['full_name']); ?></h2>
-<h4>Today's Appointments (<?php echo $today; ?>)</h4>
+<h2>Личный Кабинет Врача: <?php echo htmlspecialchars($doctor['full_name']); ?></h2>
+<h4>Приемы на сегодня (<?php echo $today; ?>)</h4>
+
+<?php if (isset($_GET['completed'])): ?>
+    <div class="alert alert-success">Прием успешно завершен.</div>
+<?php endif; ?>
 
 <?php if (empty($appointments)): ?>
-    <div class="alert alert-info">No appointments scheduled for today.</div>
+    <div class="alert alert-info">На сегодня приемов не запланировано.</div>
 <?php else: ?>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Time</th>
-                <th>Patient</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>Время</th>
+                <th>Пациент</th>
+                <th>Статус</th>
+                <th>Действие</th>
             </tr>
         </thead>
         <tbody>
@@ -44,9 +49,9 @@ include '../includes/header.php';
             <tr>
                 <td><?php echo htmlspecialchars($app['appointment_time']); ?></td>
                 <td><?php echo htmlspecialchars($app['patient_name']); ?></td>
-                <td><span class="badge bg-primary"><?php echo ucfirst($app['status']); ?></span></td>
+                <td><span class="badge bg-primary">Забронировано</span></td>
                 <td>
-                    <a href="complete_appointment.php?id=<?php echo $app['id']; ?>" class="btn btn-sm btn-success">Complete Appointment</a>
+                    <a href="/doctor/complete_appointment.php?id=<?php echo $app['id']; ?>" class="btn btn-sm btn-success">Завершить прием</a>
                 </td>
             </tr>
             <?php endforeach; ?>

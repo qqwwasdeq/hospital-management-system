@@ -1,4 +1,5 @@
 <?php
+require_once '../config.php';
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 requireRole('admin');
@@ -13,20 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("INSERT INTO schedule (doctor_id, appointment_date, appointment_time, is_available) VALUES (?, ?, ?, 1)");
     $stmt->execute([$doctor_id, $date, $time]);
 
-    header("Location: dashboard.php?slot_added=1");
+    header("Location: /admin/dashboard.php?slot_added=1");
     exit;
 }
 
 include '../includes/header.php';
 ?>
 
-<h2>Add New Time Slot</h2>
+<h2>Добавить новый слот в расписание</h2>
 
-<div class="card col-md-6">
+<div class="card col-md-6 shadow-sm">
     <div class="card-body">
         <form method="POST">
             <div class="mb-3">
-                <label class="form-label">Doctor</label>
+                <label class="form-label">Врач</label>
                 <select name="doctor_id" class="form-select" required>
                     <?php foreach ($doctors as $doc): ?>
                         <option value="<?php echo $doc['id']; ?>"><?php echo htmlspecialchars($doc['full_name']); ?></option>
@@ -34,15 +35,15 @@ include '../includes/header.php';
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label">Date</label>
+                <label class="form-label">Дата</label>
                 <input type="date" name="date" class="form-control" required min="<?php echo date('Y-m-d'); ?>">
             </div>
             <div class="mb-3">
-                <label class="form-label">Time</label>
+                <label class="form-label">Время</label>
                 <input type="time" name="time" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary">Add Slot</button>
-            <a href="dashboard.php" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-primary">Добавить слот</button>
+            <a href="/admin/dashboard.php" class="btn btn-secondary">Назад</a>
         </form>
     </div>
 </div>

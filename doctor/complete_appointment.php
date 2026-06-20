@@ -1,11 +1,12 @@
 <?php
+require_once '../config.php';
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 requireRole('doctor');
 
 $appointment_id = $_GET['id'] ?? null;
 if (!$appointment_id) {
-    header("Location: dashboard.php");
+    header("Location: /doctor/dashboard.php");
     exit;
 }
 
@@ -15,7 +16,6 @@ $stmt->execute([$user_id]);
 $doctor = $stmt->fetch();
 $doctor_id = $doctor['id'];
 
-// Verify appointment belongs to this doctor and is still booked
 $stmt = $pdo->prepare("
     SELECT a.*, p.full_name as patient_name
     FROM appointments a
@@ -26,7 +26,7 @@ $stmt->execute([$appointment_id, $doctor_id]);
 $appointment = $stmt->fetch();
 
 if (!$appointment) {
-    die("Appointment not found or already completed.");
+    die("Прием не найден или уже завершен.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,33 +41,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ");
     $stmt->execute([$symptoms, $diagnosis, $treatment, $appointment_id]);
 
-    header("Location: dashboard.php?completed=1");
+    header("Location: /doctor/dashboard.php?completed=1");
     exit;
 }
 
 include '../includes/header.php';
 ?>
 
-<h2>Complete Appointment</h2>
-<p><strong>Patient:</strong> <?php echo htmlspecialchars($appointment['patient_name']); ?></p>
+<h2>Завершение Приема</h2>
+<p><strong>Пациент:</strong> <?php echo htmlspecialchars($appointment['patient_name']); ?></p>
 
-<div class="card">
+<div class="card shadow-sm">
     <div class="card-body">
         <form method="POST">
             <div class="mb-3">
-                <label class="form-label">Symptoms</label>
+                <label class="form-label">Симптомы</label>
                 <textarea name="symptoms" class="form-control" rows="3" required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label">Diagnosis</label>
+                <label class="form-label">Диагноз</label>
                 <textarea name="diagnosis" class="form-control" rows="3" required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label">Treatment</label>
+                <label class="form-label">Лечение</label>
                 <textarea name="treatment" class="form-control" rows="3" required></textarea>
             </div>
-            <button type="submit" class="btn btn-success">Save and Complete</button>
-            <a href="dashboard.php" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-success">Сохранить и Завершить</button>
+            <a href="/doctor/dashboard.php" class="btn btn-secondary">Отмена</a>
         </form>
     </div>
 </div>

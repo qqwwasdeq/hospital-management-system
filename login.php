@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         redirectBasedOnRole($user['role']);
     } else {
-        $error = "Invalid login or password.";
+        $error = "Неверный логин или пароль.";
     }
 }
 
@@ -32,29 +32,29 @@ include 'includes/header.php';
 
 <div class="row justify-content-center">
     <div class="col-md-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white text-center"><h4>Login</h4></div>
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center"><h4>Вход в систему</h4></div>
             <div class="card-body">
                 <?php if (isset($_GET['registered'])): ?>
-                    <div class="alert alert-success">Registration successful! Please log in.</div>
+                    <div class="alert alert-success">Регистрация прошла успешно! Пожалуйста, войдите.</div>
                 <?php endif; ?>
                 <?php if ($error): ?>
                     <div class="alert alert-danger"><?php echo $error; ?></div>
                 <?php endif; ?>
                 <form method="POST">
                     <div class="mb-3">
-                        <label class="form-label">Login</label>
+                        <label class="form-label">Логин</label>
                         <input type="text" name="login" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Password</label>
+                        <label class="form-label">Пароль</label>
                         <input type="password" name="password" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    <button type="submit" class="btn btn-primary w-100">Войти</button>
                 </form>
             </div>
             <div class="card-footer text-center">
-                <a href="/register.php">Don't have an account? Register as Patient</a>
+                <a href="/register.php">Нет аккаунта? Зарегистрируйтесь как Пациент</a>
             </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
 <?php
+require_once '../config.php';
 require_once '../includes/auth.php';
 require_once '../includes/db.php';
 requireRole('patient');
@@ -23,26 +24,26 @@ $appointments = $stmt->fetchAll();
 include '../includes/header.php';
 ?>
 
-<h2>My Upcoming Appointments</h2>
+<h2>Мои Предстоящие Приемы</h2>
 
 <?php if (isset($_GET['booked'])): ?>
-    <div class="alert alert-success">Appointment booked successfully!</div>
+    <div class="alert alert-success">Прием успешно забронирован!</div>
 <?php endif; ?>
 <?php if (isset($_GET['cancelled'])): ?>
-    <div class="alert alert-warning">Appointment cancelled.</div>
+    <div class="alert alert-warning">Прием отменен.</div>
 <?php endif; ?>
 
 <?php if (empty($appointments)): ?>
-    <p>You have no upcoming appointments. <a href="/doctors_schedule.php">Book one now</a>.</p>
+    <p>У вас нет предстоящих приемов. <a href="/doctors_schedule.php">Записаться на прием</a>.</p>
 <?php else: ?>
     <table class="table">
         <thead>
             <tr>
-                <th>Doctor</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th>Врач</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Статус</th>
+                <th>Действие</th>
             </tr>
         </thead>
         <tbody>
@@ -51,9 +52,9 @@ include '../includes/header.php';
                 <td><?php echo htmlspecialchars($app['doctor_name']); ?></td>
                 <td><?php echo htmlspecialchars($app['appointment_date']); ?></td>
                 <td><?php echo htmlspecialchars($app['appointment_time']); ?></td>
-                <td><span class="badge bg-primary"><?php echo ucfirst($app['status']); ?></span></td>
+                <td><span class="badge bg-primary">Забронировано</span></td>
                 <td>
-                    <a href="cancel.php?id=<?php echo $app['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Cancel</a>
+                    <a href="/patient/cancel.php?id=<?php echo $app['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Вы уверены?')">Отменить</a>
                 </td>
             </tr>
             <?php endforeach; ?>

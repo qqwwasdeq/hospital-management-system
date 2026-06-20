@@ -15,21 +15,21 @@ $slots = $stmt->fetchAll();
 include 'includes/header.php';
 ?>
 
-<h2>Doctors & Available Time Slots</h2>
-<p class="text-muted">Browse our specialists and book an appointment.</p>
+<h2>Врачи и Доступное Расписание</h2>
+<p class="text-muted">Выберите специалиста и запишитесь на прием.</p>
 
 <?php if (empty($slots)): ?>
-    <div class="alert alert-info">No available slots found.</div>
+    <div class="alert alert-info">Свободных слотов не найдено.</div>
 <?php else: ?>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Doctor</th>
-                <th>Specialization</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Availability</th>
-                <th>Action</th>
+                <th>Врач</th>
+                <th>Специализация</th>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Статус</th>
+                <th>Действие</th>
             </tr>
         </thead>
         <tbody>
@@ -41,24 +41,24 @@ include 'includes/header.php';
                 <td><?php echo htmlspecialchars($slot['appointment_time']); ?></td>
                 <td>
                     <?php if ($slot['is_available']): ?>
-                        <span class="badge bg-success">Available</span>
+                        <span class="badge bg-success">Свободно</span>
                     <?php else: ?>
-                        <span class="badge bg-secondary">Booked</span>
+                        <span class="badge bg-secondary">Занято</span>
                     <?php endif; ?>
                 </td>
                 <td>
                     <?php if ($slot['is_available']): ?>
                         <?php if (isLoggedIn()): ?>
                             <?php if (getRole() === 'patient'): ?>
-                                <a href="patient/book.php?slot_id=<?php echo $slot['id']; ?>" class="btn btn-sm btn-primary">Book Appointment</a>
+                                <a href="/patient/book.php?slot_id=<?php echo $slot['id']; ?>" class="btn btn-sm btn-primary">Записаться</a>
                             <?php else: ?>
-                                <button class="btn btn-sm btn-secondary" disabled title="Only patients can book">Book Appointment</button>
+                                <button class="btn btn-sm btn-secondary" disabled title="Только пациенты могут записываться">Записаться</button>
                             <?php endif; ?>
                         <?php else: ?>
-                            <a href="login.php?msg=Please login or register to book an appointment" class="btn btn-sm btn-outline-primary">Book Appointment</a>
+                            <a href="/login.php?msg=Пожалуйста, войдите или зарегистрируйтесь, чтобы записаться на прием" class="btn btn-sm btn-outline-primary">Записаться</a>
                         <?php endif; ?>
                     <?php else: ?>
-                        <button class="btn btn-sm btn-secondary" disabled>Unavailable</button>
+                        <button class="btn btn-sm btn-secondary" disabled>Недоступно</button>
                     <?php endif; ?>
                 </td>
             </tr>
