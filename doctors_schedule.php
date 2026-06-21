@@ -7,7 +7,7 @@ $stmt = $pdo->query("
     SELECT s.id, d.full_name, d.specialization, s.appointment_date, s.appointment_time, s.is_available
     FROM schedule s
     JOIN doctors d ON s.doctor_id = d.id
-    WHERE s.appointment_date >= date('now')
+    WHERE s.appointment_date >= CURDATE()
     ORDER BY s.appointment_date, s.appointment_time
 ");
 $slots = $stmt->fetchAll();
