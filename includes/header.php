@@ -9,7 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="<?php
+    if (basename($_SERVER['PHP_SELF']) == 'doctor_login.php') {
+        echo 'theme-doctor-login';
+    } elseif (isset($_SESSION['role'])) {
+        echo 'theme-' . $_SESSION['role'];
+    }
+?>">
 <nav class="navbar">
     <div class="container">
         <a class="nav-brand" href="index.php"><?php echo SITE_NAME; ?></a>

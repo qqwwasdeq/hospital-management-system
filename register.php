@@ -17,8 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             $pdo->beginTransaction();
+            // Исправлено: Хеширование пароля и сохранение в password_hash
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("INSERT INTO users (login, password_hash, role) VALUES (?, ?, 'patient')");
-            $stmt->execute([$login, password_hash($password, PASSWORD_DEFAULT)]);
+            $stmt->execute([$login, $hashed_password]);
             $user_id = $pdo->lastInsertId();
 
             $medical_card_num = 'МК-' . strtoupper(substr(md5(uniqid()), 0, 8));
@@ -36,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 include 'includes/header.php';
 ?>
-<div class="card card-register">
-    <div class="card-header">
+<div class="card auth-card-compact" style="max-width: 500px;">
+    <div class="card-header text-center">
         <h2>Регистрация Пациента</h2>
     </div>
     <?php if ($error): ?>
@@ -68,7 +70,10 @@ include 'includes/header.php';
             <label class="form-label">Пароль</label>
             <input type="password" name="password" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+        <button type="submit" class="btn btn-primary btn-block btn-sm">Зарегистрироваться</button>
     </form>
+    <div class="text-center mt-15">
+        <a href="login.php" style="font-size: 0.9rem;">Уже есть аккаунт? Войти</a>
+    </div>
 </div>
 <?php include 'includes/footer.php'; ?>

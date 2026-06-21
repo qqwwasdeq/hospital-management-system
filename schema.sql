@@ -64,22 +64,23 @@ CREATE TABLE IF NOT EXISTS appointments (
 
 -- Тестовые аккаунты
 INSERT INTO users (login, password_hash, role) VALUES
-('admin', '$2y$10$9NNRiU/KIQb6CpPxI.0MoOvIOAf86KJWY64CE7O0naCRuEh8EIGBu', 'admin'),       -- пароль: admin
-('director', '$2y$10$49KOUftQEn230CsaM/d6m.K6Clxi5RfXh70W6XCIQPjSjXUndCrlG', 'director'), -- пароль: director
-('doctor', '$2y$10$6Hp2FRwNxFqlacUahXKpU.gQZ1KMoOdmJVVpP1rXTWyh2M45MtYV6', 'doctor'),     -- пароль: doctor
-('patient', '$2y$10$RiDShDaSdMp7DgoT5x/OveU4LDHAkyKdCivww1W1uvoFDvHylniPK', 'patient');    -- пароль: patient
+('admin', '$2y$10$BaopYmW6ioeIMbfaXRoLMe2deD9alhsk9WaZpxcHcxKuwhqHUBzyq', 'admin'),       -- пароль: admin
+('ivanov', '$2y$10$w0a4VwWlR6Ht72f0aQXeBOeAwIM3TXdIrwyT2c0.cVWheZblxZQFS', 'doctor'),      -- пароль: doc123
+('petrov', '$2y$10$kcNNGo.k3i8xdvRdcQQeZ.GvBstRLMN4bL1y6m5gSDX10/ofvMLQS', 'doctor'),      -- пароль: doc456
+('sidorova', '$2y$10$eHtoBT6IsL47ffrvzM0zNuxzpVOJUuNYwYIYvgLQBMqfCBsz0pRre', 'doctor'),    -- пароль: doc789
+('patient', '$2y$10$FV3OmXregvrXOumoM7L1QOrtyWdGesER3yDRB1F.VH.HDy2oCMjhq', 'patient');    -- пароль: pat123
 
--- 2. Врачи (привязка к user_id 3)
+-- 2. Врачи
 INSERT INTO doctors (full_name, specialization, room_num, user_id) VALUES
-('Иванов А.А.', 'Терапевт', '101', 3),
-('Петров С.П.', 'Хирург', '202', NULL),
-('Сидорова Е.М.', 'Кардиолог', '303', NULL),
+('Иванов А.А.', 'Терапевт', '101', 2),
+('Петров С.П.', 'Хирург', '202', 3),
+('Сидорова Е.М.', 'Кардиолог', '303', 4),
 ('Кузнецов Д.В.', 'Офтальмолог', '404', NULL),
 ('Смирнов И.И.', 'Невролог', '505', NULL);
 
--- 3. Тестовый пациент (привязка к user_id 4)
+-- 3. Тестовый пациент (привязка к user_id 5)
 INSERT INTO patients (user_id, full_name, passport, phone, insurance_policy, medical_card_num)
-VALUES (4, 'Тестовый Пациент', '1234 567890', '+7 (900) 123-45-67', 'OMS-999', 'MC-12345');
+VALUES (5, 'Тестовый Пациент', '1234 567890', '+7 (900) 123-45-67', 'OMS-999', 'MC-12345');
 
 -- 4. Сетка расписания
 INSERT INTO schedule (doctor_id, appointment_date, appointment_time, is_available) VALUES

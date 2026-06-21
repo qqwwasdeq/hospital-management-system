@@ -1,7 +1,7 @@
 /* Premium Medical Design */
 :root {
-    --primary-color: #1a365d;    /* Deep Trustworthy Blue */
-    --accent-color: #0d9488;     /* Medical Teal/Emerald */
+    --primary-color: #1a365d;    /* Default: Deep Trustworthy Blue */
+    --accent-color: #0d9488;     /* Default: Medical Teal */
     --accent-hover: #0f766e;
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
@@ -10,6 +10,31 @@
     --white: #ffffff;
     --success: #22c55e;
     --danger: #ef4444;
+}
+
+/* Role-based Themes */
+body.theme-patient {
+    --primary-color: #1a365d;
+    --accent-color: #2b6cb0;
+    --accent-hover: #2c5282;
+}
+
+body.theme-doctor {
+    --primary-color: #0d9488;
+    --accent-color: #0d9488;
+    --accent-hover: #0f766e;
+}
+
+body.theme-admin, body.theme-director {
+    --primary-color: #334155;
+    --accent-color: #475569;
+    --accent-hover: #1e293b;
+}
+
+body.theme-doctor-login {
+    --primary-color: #4338ca; /* Medical Indigo */
+    --accent-color: #4f46e5;
+    --accent-hover: #3730a3;
 }
 
 * { box-sizing: border-box; }
@@ -21,7 +46,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
-    opacity: 0; /* Для анимации появления */
+    opacity: 0;
     transition: opacity 0.5s ease-in-out;
 }
 
@@ -33,6 +58,11 @@ body.loaded {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 24px;
+}
+
+.main-content {
+    min-height: calc(100vh - 200px);
+    padding: 2rem 0;
 }
 
 /* Навигация */
@@ -111,11 +141,19 @@ body.loaded {
     border-radius: 1rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
 }
 
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Auth Card Compact */
+.auth-card-compact {
+    max-width: 420px;
+    margin: 3rem auto;
+    padding: 2.5rem;
 }
 
 /* Статистика */
@@ -126,6 +164,7 @@ body.loaded {
     background: #fff;
     border-radius: 1rem;
     margin-bottom: 3rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .stat-item { text-align: center; }
@@ -160,30 +199,79 @@ body.loaded {
     cursor: pointer;
     transition: all 0.2s;
     border: none;
+    text-align: center;
 }
 
 .btn-primary { background-color: var(--accent-color); color: var(--white); }
 .btn-primary:hover { background-color: var(--accent-hover); transform: scale(1.02); }
 .btn-secondary { background-color: var(--white); color: var(--primary-color); border: 2px solid var(--primary-color); }
 .btn-danger { background-color: var(--danger); color: var(--white); }
-.btn-block { display: block; width: 100%; text-align: center; }
+.btn-success { background-color: var(--success); color: var(--white); }
+.btn-block { display: block; width: 100%; }
 
-.mt-15 { margin-top: 15px; }
-.text-center { text-align: center; }
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
 
 /* Таблицы */
+.table-container {
+    overflow-x: auto;
+    background: var(--white);
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
 table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    background: var(--white);
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 th { background: #f1f5f9; padding: 1rem; text-align: left; font-weight: 600; color: var(--primary-color); }
 td { padding: 1rem; border-top: 1px solid #e2e8f0; }
+
+/* Алерты */
+.alert {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+.alert-success { background: #dcfce7; color: #166534; }
+.alert-danger { background: #fee2e2; color: #991b1b; }
+.alert-info { background: #e0f2fe; color: #075985; }
+
+/* Беджи */
+.badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.bg-primary { background: #dbeafe; color: #1e40af; }
+.bg-success { background: #dcfce7; color: #166534; }
+.bg-secondary { background: #f1f5f9; color: #475569; }
+
+/* Футер */
+footer {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.mt-15 { margin-top: 15px; }
+.text-center { text-align: center; }
 
 /* Адаптивность */
 @media (max-width: 768px) {

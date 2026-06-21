@@ -28,7 +28,7 @@ include 'includes/header.php';
             <span class="stat-label">Врачей высшей категории</span>
         </div>
         <div class="stat-item">
-            <span class="stat-number">15000+</span>
+            <span class="stat-number">800+</span>
             <span class="stat-label">Довольных пациентов</span>
         </div>
     </div>
