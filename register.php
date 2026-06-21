@@ -7,11 +7,12 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $full_name = $_POST['full_name'];
     $passport = $_POST['passport'];
+    $phone = $_POST['phone'];
     $insurance_policy = $_POST['insurance_policy'];
     $login = $_POST['login'];
     $password = $_POST['password'];
 
-    if (empty($full_name) || empty($passport) || empty($insurance_policy) || empty($login) || empty($password)) {
+    if (empty($full_name) || empty($passport) || empty($phone) || empty($insurance_policy) || empty($login) || empty($password)) {
         $error = "Все поля обязательны.";
     } else {
         try {
@@ -19,9 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO users (login, password_hash, role) VALUES (?, ?, 'patient')");
             $stmt->execute([$login, password_hash($password, PASSWORD_DEFAULT)]);
             $user_id = $pdo->lastInsertId();
+
             $medical_card_num = 'МК-' . strtoupper(substr(md5(uniqid()), 0, 8));
-            $stmt = $pdo->prepare("INSERT INTO patients (user_id, full_name, passport, insurance_policy, medical_card_num) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$user_id, $full_name, $passport, $insurance_policy, $medical_card_num]);
+            $stmt = $pdo->prepare("INSERT INTO patients (user_id, full_name, passport, phone, insurance_policy, medical_card_num) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$user_id, $full_name, $passport, $phone, $insurance_policy, $medical_card_num]);
+
             $pdo->commit();
             header("Location: login.php?registered=1");
             exit;
@@ -40,18 +43,22 @@ include 'includes/header.php';
     <?php if ($error): ?>
         <div class="alert alert-danger"><?php echo $error; ?></div>
     <?php endif; ?>
-    <form method="POST">
+    <form method="POST" id="registerForm">
         <div class="form-group">
             <label class="form-label">ФИО</label>
-            <input type="text" name="full_name" class="form-control" required>
+            <input type="text" name="full_name" class="form-control" placeholder="Иванов Иван Иванович" required>
         </div>
         <div class="form-group">
             <label class="form-label">Паспорт</label>
-            <input type="text" name="passport" class="form-control" required>
+            <input type="text" name="passport" id="passport" class="form-control" placeholder="1234 567890" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Номер телефона</label>
+            <input type="text" name="phone" id="phone" class="form-control" placeholder="+7 (999) 000-00-00" required>
         </div>
         <div class="form-group">
             <label class="form-label">Полис ОМС</label>
-            <input type="text" name="insurance_policy" class="form-control" required>
+            <input type="text" name="insurance_policy" class="form-control" placeholder="16 цифр полиса" required>
         </div>
         <div class="form-group">
             <label class="form-label">Логин</label>

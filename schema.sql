@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS patients (
     user_id INT NULL,
     full_name VARCHAR(255) NOT NULL,
     passport VARCHAR(50) UNIQUE NOT NULL,
+    phone VARCHAR(20) NOT NULL,
     insurance_policy VARCHAR(50) UNIQUE NOT NULL,
     medical_card_num VARCHAR(50) UNIQUE NOT NULL,
     CONSTRAINT fk_patient_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
@@ -61,28 +62,24 @@ CREATE TABLE IF NOT EXISTS appointments (
 -- ПРЕДВАРИТЕЛЬНОЕ ЗАПОЛНЕНИЕ ДАННЫМИ (SEED)
 -- ==========================================
 
--- Пароль 'password123' для всех тестовых аккаунтов
+-- Тестовые аккаунты
 INSERT INTO users (login, password_hash, role) VALUES
-('admin', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'admin'),
-('director', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'director'),
-('doc_ivanov', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'doctor'),
-('doc_petrov', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'doctor'),
-('doc_sidorova', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'doctor'),
-('doc_kuznetsov', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'doctor'),
-('doc_smirnov', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'doctor'),
-('patient_test', '$2y$10$zIMq3PDhZ6SqaUpKUjgoSeD.DLTmTfjdLlmGZxxAixOvkrkAo9cCG', 'patient');
+('admin', '$2y$10$9NNRiU/KIQb6CpPxI.0MoOvIOAf86KJWY64CE7O0naCRuEh8EIGBu', 'admin'),       -- пароль: admin
+('director', '$2y$10$49KOUftQEn230CsaM/d6m.K6Clxi5RfXh70W6XCIQPjSjXUndCrlG', 'director'), -- пароль: director
+('doctor', '$2y$10$6Hp2FRwNxFqlacUahXKpU.gQZ1KMoOdmJVVpP1rXTWyh2M45MtYV6', 'doctor'),     -- пароль: doctor
+('patient', '$2y$10$RiDShDaSdMp7DgoT5x/OveU4LDHAkyKdCivww1W1uvoFDvHylniPK', 'patient');    -- пароль: patient
 
--- 2. Врачи (привязка к user_id 3, 4, 5, 6, 7)
+-- 2. Врачи (привязка к user_id 3)
 INSERT INTO doctors (full_name, specialization, room_num, user_id) VALUES
 ('Иванов А.А.', 'Терапевт', '101', 3),
-('Петров С.П.', 'Хирург', '202', 4),
-('Сидорова Е.М.', 'Кардиолог', '303', 5),
-('Кузнецов Д.В.', 'Офтальмолог', '404', 6),
-('Смирнов И.И.', 'Невролог', '505', 7);
+('Петров С.П.', 'Хирург', '202', NULL),
+('Сидорова Е.М.', 'Кардиолог', '303', NULL),
+('Кузнецов Д.В.', 'Офтальмолог', '404', NULL),
+('Смирнов И.И.', 'Невролог', '505', NULL);
 
--- 3. Тестовый пациент (привязка к user_id 8)
-INSERT INTO patients (user_id, full_name, passport, insurance_policy, medical_card_num)
-VALUES (8, 'Тестовый Пациент', '1234 567890', 'OMS-999', 'MC-12345');
+-- 3. Тестовый пациент (привязка к user_id 4)
+INSERT INTO patients (user_id, full_name, passport, phone, insurance_policy, medical_card_num)
+VALUES (4, 'Тестовый Пациент', '1234 567890', '+7 (900) 123-45-67', 'OMS-999', 'MC-12345');
 
 -- 4. Сетка расписания
 INSERT INTO schedule (doctor_id, appointment_date, appointment_time, is_available) VALUES
