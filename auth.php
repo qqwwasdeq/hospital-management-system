@@ -11,7 +11,7 @@ function getRole() {
 
 function requireRole($roles) {
     if (!isLoggedIn()) {
-        header("Location: /login.php");
+        header("Location: login.php");
         exit;
     }
     if (is_string($roles)) {
@@ -26,19 +26,19 @@ function requireRole($roles) {
 function redirectBasedOnRole($role) {
     switch ($role) {
         case 'patient':
-            header("Location: /patient/dashboard.php");
+            header("Location: patient_dashboard.php");
             break;
         case 'doctor':
-            header("Location: /doctor/dashboard.php");
+            header("Location: doctor_dashboard.php");
             break;
         case 'admin':
-            header("Location: /admin/dashboard.php");
+            header("Location: admin_dashboard.php");
             break;
         case 'director':
-            header("Location: /director/dashboard.php");
+            header("Location: director_dashboard.php");
             break;
         default:
-            header("Location: /index.php");
+            header("Location: index.php");
     }
     exit;
 }

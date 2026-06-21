@@ -1,7 +1,7 @@
 <?php
 require_once 'config.php';
-require_once 'includes/auth.php';
-require_once 'includes/db.php';
+require_once 'auth.php';
+require_once 'db.php';
 
 $stmt = $pdo->query("
     SELECT s.id, d.full_name, d.specialization, s.appointment_date, s.appointment_time, s.is_available
@@ -12,59 +12,65 @@ $stmt = $pdo->query("
 ");
 $slots = $stmt->fetchAll();
 
-include 'includes/header.php';
+include 'header.php';
 ?>
 
-<h2>Врачи и Доступное Расписание</h2>
-<p class="text-muted">Выберите специалиста и запишитесь на прием.</p>
+<div class="card">
+    <div class="card-header">
+        <h2>Врачи и Доступное Расписание</h2>
+        <p>Выберите специалиста и запишитесь на прием.</p>
+    </div>
 
-<?php if (empty($slots)): ?>
-    <div class="alert alert-info">Свободных слотов не найдено.</div>
-<?php else: ?>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Врач</th>
-                <th>Специализация</th>
-                <th>Дата</th>
-                <th>Время</th>
-                <th>Статус</th>
-                <th>Действие</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($slots as $slot): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($slot['full_name']); ?></td>
-                <td><?php echo htmlspecialchars($slot['specialization']); ?></td>
-                <td><?php echo htmlspecialchars($slot['appointment_date']); ?></td>
-                <td><?php echo htmlspecialchars($slot['appointment_time']); ?></td>
-                <td>
-                    <?php if ($slot['is_available']): ?>
-                        <span class="badge bg-success">Свободно</span>
-                    <?php else: ?>
-                        <span class="badge bg-secondary">Занято</span>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <?php if ($slot['is_available']): ?>
-                        <?php if (isLoggedIn()): ?>
-                            <?php if (getRole() === 'patient'): ?>
-                                <a href="/patient/book.php?slot_id=<?php echo $slot['id']; ?>" class="btn btn-sm btn-primary">Записаться</a>
+    <?php if (empty($slots)): ?>
+        <div class="alert alert-info">Свободных слотов не найдено.</div>
+    <?php else: ?>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Врач</th>
+                        <th>Специализация</th>
+                        <th>Дата</th>
+                        <th>Время</th>
+                        <th>Статус</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($slots as $slot): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($slot['full_name']); ?></td>
+                        <td><?php echo htmlspecialchars($slot['specialization']); ?></td>
+                        <td><?php echo htmlspecialchars($slot['appointment_date']); ?></td>
+                        <td><?php echo htmlspecialchars($slot['appointment_time']); ?></td>
+                        <td>
+                            <?php if ($slot['is_available']): ?>
+                                <span class="badge bg-success">Свободно</span>
                             <?php else: ?>
-                                <button class="btn btn-sm btn-secondary" disabled title="Только пациенты могут записываться">Записаться</button>
+                                <span class="badge bg-secondary">Занято</span>
                             <?php endif; ?>
-                        <?php else: ?>
-                            <a href="/login.php?msg=Пожалуйста, войдите или зарегистрируйтесь, чтобы записаться на прием" class="btn btn-sm btn-outline-primary">Записаться</a>
-                        <?php endif; ?>
-                    <?php else: ?>
-                        <button class="btn btn-sm btn-secondary" disabled>Недоступно</button>
-                    <?php endif; ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($slot['is_available']): ?>
+                                <?php if (isLoggedIn()): ?>
+                                    <?php if (getRole() === 'patient'): ?>
+                                        <a href="patient_book.php?slot_id=<?php echo $slot['id']; ?>" class="btn btn-primary">Записаться</a>
+                                    <?php else: ?>
+                                        <button class="btn btn-secondary" disabled>Записаться</button>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <a href="login.php?msg=Войдите, чтобы записаться" class="btn btn-primary">Записаться</a>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <button class="btn btn-secondary" disabled>Недоступно</button>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+</div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include 'footer.php'; ?>
