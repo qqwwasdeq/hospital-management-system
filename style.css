@@ -110,6 +110,10 @@ body {
     border-radius: 4px;
 }
 
+.form-inline {
+    display: inline;
+}
+
 /* Кнопки */
 .btn {
     display: inline-block;

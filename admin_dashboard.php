@@ -64,7 +64,7 @@ include 'header.php';
                     <td><?php echo htmlspecialchars($app['patient_name']); ?></td>
                     <td><?php echo htmlspecialchars($app['doctor_name']); ?></td>
                     <td>
-                        <form method="POST" style="display:inline;">
+                        <form method="POST" class="form-inline">
                             <input type="hidden" name="cancel_id" value="<?php echo $app['id']; ?>">
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Отменить запись?')">Отменить</button>
                         </form>
