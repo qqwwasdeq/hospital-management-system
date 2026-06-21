@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
-require_once 'db.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 requireRole('admin');
 
 if (isset($_POST['cancel_id'])) {
@@ -33,7 +33,7 @@ $stmt = $pdo->query("
 ");
 $appointments = $stmt->fetchAll();
 
-include 'header.php';
+include 'includes/header.php';
 ?>
 
 <div class="card">
@@ -76,4 +76,4 @@ include 'header.php';
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

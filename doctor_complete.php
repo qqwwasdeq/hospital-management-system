@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
-require_once 'db.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 requireRole('doctor');
 
 $appointment_id = $_GET['id'] ?? null;
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: doctor_dashboard.php?completed=1");
     exit;
 }
-include 'header.php';
+include 'includes/header.php';
 ?>
 <div class="card card-complete">
     <h2>Завершение Приема</h2>
@@ -57,4 +57,4 @@ include 'header.php';
         <a href="doctor_dashboard.php" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

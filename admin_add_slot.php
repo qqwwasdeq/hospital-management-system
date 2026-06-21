@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
-require_once 'db.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 requireRole('admin');
 
 $doctors = $pdo->query("SELECT id, full_name FROM doctors")->fetchAll();
@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: admin_dashboard.php?slot_added=1");
     exit;
 }
-include 'header.php';
+include 'includes/header.php';
 ?>
 <div class="card card-add-slot">
     <h2>Добавить слот</h2>
@@ -40,4 +40,4 @@ include 'header.php';
         <a href="admin_dashboard.php" class="btn btn-secondary">Назад</a>
     </form>
 </div>
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

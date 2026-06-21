@@ -1,13 +1,13 @@
--- Users table (shared for authentication)
-CREATE TABLE users (
+-- Таблица пользователей
+CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     login TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     role TEXT CHECK(role IN ('patient', 'doctor', 'admin', 'director')) NOT NULL
 );
 
--- Patient data
-CREATE TABLE patients (
+-- Данные пациентов
+CREATE TABLE IF NOT EXISTS patients (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
     full_name TEXT NOT NULL,
@@ -17,8 +17,8 @@ CREATE TABLE patients (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Doctor data
-CREATE TABLE doctors (
+-- Данные врачей
+CREATE TABLE IF NOT EXISTS doctors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
     full_name TEXT NOT NULL,
@@ -27,8 +27,8 @@ CREATE TABLE doctors (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Schedule grid
-CREATE TABLE schedule (
+-- Сетка расписания
+CREATE TABLE IF NOT EXISTS schedule (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     doctor_id INTEGER NOT NULL,
     appointment_date DATE NOT NULL,
@@ -37,8 +37,8 @@ CREATE TABLE schedule (
     FOREIGN KEY (doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
 );
 
--- Appointment log
-CREATE TABLE appointments (
+-- Журнал приемов
+CREATE TABLE IF NOT EXISTS appointments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     patient_id INTEGER NOT NULL,
     doctor_id INTEGER NOT NULL,

@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
-require_once 'db.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-include 'header.php';
+include 'includes/header.php';
 ?>
 <div class="card card-register">
     <div class="card-header">
@@ -64,4 +64,4 @@ include 'header.php';
         <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
     </form>
 </div>
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

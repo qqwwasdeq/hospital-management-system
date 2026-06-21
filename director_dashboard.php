@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
-require_once 'db.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 requireRole('director');
 
 $total_patients = $pdo->query("SELECT COUNT(*) FROM patients")->fetchColumn();
@@ -15,7 +15,7 @@ $stmt = $pdo->query("
 ");
 $workload = $stmt->fetchAll();
 
-include 'header.php';
+include 'includes/header.php';
 ?>
 
 <div class="card">
@@ -57,4 +57,4 @@ include 'header.php';
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

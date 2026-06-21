@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
-require_once 'db.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 requireRole('patient');
 
 $user_id = $_SESSION['user_id'];
@@ -21,7 +21,7 @@ $stmt = $pdo->prepare("
 $stmt->execute([$patient_id]);
 $appointments = $stmt->fetchAll();
 
-include 'header.php';
+include 'includes/header.php';
 ?>
 
 <div class="card">
@@ -68,4 +68,4 @@ include 'header.php';
     <?php endif; ?>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

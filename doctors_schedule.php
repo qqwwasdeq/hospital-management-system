@@ -1,7 +1,7 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
-require_once 'db.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
+require_once 'includes/db.php';
 
 $stmt = $pdo->query("
     SELECT s.id, d.full_name, d.specialization, s.appointment_date, s.appointment_time, s.is_available
@@ -12,7 +12,7 @@ $stmt = $pdo->query("
 ");
 $slots = $stmt->fetchAll();
 
-include 'header.php';
+include 'includes/header.php';
 ?>
 
 <div class="card">
@@ -73,4 +73,4 @@ include 'header.php';
     <?php endif; ?>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php include 'includes/footer.php'; ?>

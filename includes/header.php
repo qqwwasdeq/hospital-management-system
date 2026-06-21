@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo SITE_NAME; ?></title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar">
@@ -12,7 +15,7 @@
         <a class="nav-brand" href="index.php"><?php echo SITE_NAME; ?></a>
         <ul class="nav-links">
             <li><a href="index.php">Главная</a></li>
-            <li><a href="doctors_schedule.php">Врачи и Расписание</a></li>
+            <li><a href="doctors_schedule.php">Расписание</a></li>
             <?php if (isset($_SESSION['user_id'])): ?>
                 <li>
                     <a href="<?php
@@ -22,10 +25,7 @@
                             case 'admin': echo 'admin_dashboard.php'; break;
                             case 'director': echo 'director_dashboard.php'; break;
                         }
-                    ?>">Кабинет (<?php
-                        $roles_ru = ['patient' => 'Пациент', 'doctor' => 'Врач', 'admin' => 'Админ', 'director' => 'Директор'];
-                        echo $roles_ru[$_SESSION['role']] ?? $_SESSION['role'];
-                    ?>)</a>
+                    ?>">Кабинет</a>
                 </li>
                 <li><a href="logout.php">Выход</a></li>
             <?php else: ?>
@@ -35,4 +35,4 @@
         </ul>
     </div>
 </nav>
-<div class="container">
+<div class="container main-content">
